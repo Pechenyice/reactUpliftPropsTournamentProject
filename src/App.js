@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import React, {useState} from "react";
+import TournamentTable from "./components/TournamentTable/TournamentTable";
+import Logo from "./components/Logo/Logo";
+import NewTournament from "./components/NewTournament/NewTournament";
 import './App.css';
+import NewRound from "./components/NewRound/NewRound";
+import Controls from "./components/Controls/Controls";
+import Help from "./components/Help/Help";
 
 function App() {
+
+  const [state, setState] = useState(
+      {
+        tournamentStarted: !!localStorage.getItem('tournamentStarted')
+      }
+  );
+
+  function handleCLickStartTournament(e) {
+    localStorage.setItem('tournamentStarted', true);
+    setState({tournamentStarted: !!localStorage.getItem('tournamentStarted')});
+  }
+
+  function handleCLickEndTournament(e) {
+    localStorage.setItem('tournamentStarted', true);
+    setState({tournamentStarted: !!localStorage.getItem('tournamentStarted')});
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TournamentTable />
+      <Logo />
+      <NewTournament shouldRender={!state.tournamentStarted} onStart={handleCLickStartTournament} />
+      <NewRound shouldRender={state.tournamentStarted} />
+      <Controls onEnd={handleCLickEndTournament} />
+      <Help />
     </div>
   );
 }
