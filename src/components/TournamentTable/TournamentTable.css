@@ -1,0 +1,50 @@
+
+* {
+    box-sizing: border-box;
+}
+
+.tournamentTable {
+    width: 300px;
+    height: 500px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+    border: 2px dashed black;
+    border-radius: 20px;
+    transition: .2s;
+    padding: 24px;
+}
+
+.tournamentTable:hover {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    transition: .2s;
+}
+
+.tournamentTable__decor {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 24px;
+}
+
+.tournamentTable__content {
+    position: relative;
+    height: calc(100% - 52px);
+    background-color: red;
+}
+
+.tournamentTable__hint {
+    position: absolute;
+    height: 30px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: calc(50% - 15px);
+    width: 100%;
+    text-align: center;
+}
+
+.tournamentTable__hint:first-child:last-child {
+    display: flex;
+}
