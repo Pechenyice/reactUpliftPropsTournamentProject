@@ -16,7 +16,7 @@ class NewTournament extends React.Component {
 
             <NewTournamentMembers />
 
-            <div className='newTournamentTable__startButton'>Start tournament</div>
+            <div className='newTournamentTable__startButton' onClick={this.props.onStart}>Start tournament</div>
         </div>
       );
     }
