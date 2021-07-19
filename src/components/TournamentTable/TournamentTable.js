@@ -12,13 +12,16 @@ class TournamentTable extends React.Component {
     
     render() {
       return (
-        <div className='tournamentTable'>
-          <div className='tournamentTable__decor'>
-            <FontAwesomeIcon icon={faTrophy} />
-          </div>
-          <div className='tournamentTable__content'>
-            <div className='tournamentTable__hint'>no tournaments history</div>
-            <TournamentContent />
+        <div>
+          <div className='tournamentTableHint'>{this.props.tournamentStarted ? 'Текущий турнир:' : 'Прошедший турнир:'}</div>
+          <div className='tournamentTable'>
+            <div className='tournamentTable__decor'>
+              <FontAwesomeIcon icon={faTrophy} />
+            </div>
+            <div className='tournamentTable__content'>
+              <div className='tournamentTable__hint'>no tournaments history</div>
+              <TournamentContent />
+            </div>
           </div>
         </div>
       );
