@@ -8,7 +8,7 @@ class Controls extends React.Component {
     
     render() {
       return (
-        <div className='controls__endButton'>End tournament</div>
+        <div className='controls__endButton' onClick={this.props.onEnd}>End tournament</div>
       );
     }
 }
