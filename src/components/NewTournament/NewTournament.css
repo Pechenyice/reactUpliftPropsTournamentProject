@@ -1,0 +1,113 @@
+
+.newTournamentTable {
+    position: relative;
+    width: 300px;
+    height: 500px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+    border: 2px dashed black;
+    border-radius: 20px;
+    transition: .2s;
+    padding: 24px;
+}
+
+.newTournamentTable:hover {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    transition: .2s;
+}
+
+.newTournamentTable__nameInput {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #000000;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid black;
+    text-align: center;
+    width: 100%;
+    height: 36px;
+}
+
+.newTournamentTable__addButton {
+    width: 250px;
+    height: 50px;
+    margin: auto;
+    background: #F68EFF;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 21px;
+    color: #FFFFFF;
+    border: 2px solid #F68EFF;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.newTournamentTable__addButton:hover {
+    color: #F68EFF;
+    background-color: #fff;
+    transition: .2s;
+}
+
+.newTournamentTable__startButton {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    width: 250px;
+    height: 50px;
+    margin: auto;
+    background: #4FB665;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 21px;
+    color: #FFFFFF;
+    border: 2px solid #4FB665;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.newTournamentTable__startButton:hover {
+    color: #4FB665;
+    background-color: #fff;
+    transition: .2s;
+}
+
+.newTournamentMembers {
+    position: relative;
+    height: 250px;
+    margin-top: 24px;
+    overflow-y: auto;
+}
+
+.newTournamentMember {
+    width: 100%;
+    margin-bottom: 12px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #000000;
+    text-align: center;
+}

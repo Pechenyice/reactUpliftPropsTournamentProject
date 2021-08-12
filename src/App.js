@@ -1,25 +1,113 @@
 import React, {useState} from "react";
+import TournamentTable from "./components/TournamentTable/TournamentTable";
+import Logo from "./components/Logo/Logo";
+import NewTournament from "./components/NewTournament/NewTournament";
 import './App.css';
+import NewRound from "./components/NewRound/NewRound";
+import Controls from "./components/Controls/Controls";
+import Help from "./components/Help/Help";
+import Hints from "./components/Hints/Hints";
 
 function App() {
 
-  return (
-    <div className="App">
-      <svg width="312" height="313" viewBox="0 0 312 313" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M17 85.1854C31.4126 57.1132 54.0879 33.9811 81.8145 19L106.834 62.3356C86.6694 72.8746 70.3174 89.7117 60.3887 110.236L17 85.1854Z" fill="#F1502F"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.479 108C2.62305 123.081 0 139.165 0 155.861C0 174.807 3.37744 192.964 9.56299 209.763L53.832 184.205C51.3345 175.183 50 165.678 50 155.861C50 148.32 50.7876 140.964 52.2842 133.868L7.479 108Z" fill="#00758F"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M105 303.471C121.112 309.099 138.429 312.158 156.46 312.158C174.383 312.158 191.6 309.135 207.629 303.572L181.938 259.076C173.777 261.09 165.243 262.158 156.46 262.158C147.567 262.158 138.93 261.063 130.675 259L105 303.471Z" fill="#9FEAF9"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M81.4404 293.452C55.7314 279.465 34.3936 258.459 20 233.006L63.3115 208C73.3071 225.869 88.3262 240.547 106.458 250.122L81.4404 293.452Z" fill="#FF7765"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M156.028 50C147.298 50 138.814 51.0555 130.697 53.0457L105 8.53688C120.989 3.00486 138.158 0 156.028 0C173.79 0 190.859 2.96848 206.765 8.4364L181.053 52.9711C173.029 51.0291 164.649 50 156.028 50Z" fill="#F0DB4F"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M258 183.887L302.276 209.45C308.44 192.677 311.805 174.552 311.805 155.641C311.805 138.286 308.971 121.593 303.741 106L259.106 131.77C260.872 139.442 261.805 147.432 261.805 155.641C261.805 165.422 260.48 174.894 258 183.887Z" fill="#3C873A"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M291.774 232.006C277.33 257.585 255.876 278.68 230.019 292.682L205 249.349C223.28 239.762 238.417 224.996 248.462 207L291.774 232.006Z" fill="#F06529"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M250.899 107.732C240.857 87.8642 224.745 71.5871 205 61.3393L230.022 18C257.331 32.687 279.761 55.2731 294.254 82.7007L250.899 107.732Z" fill="#61DBFB"/>
-      </svg>
-
-
-    </div>
+  const [state, setState] = useState(
+      {
+        tournamentStarted: parseInt(localStorage.getItem('tournamentStarted')) || 0,
+        team: JSON.parse(localStorage.getItem('team')) || {members: []},
+        round: parseInt(localStorage.getItem('round')) || 1
+      }
   );
 
+  function handleCLickStartTournament(e) {
+    if (handleError('tournamentStart')) {
+      let action = {
+        activated: true,
+        type: 'error',
+        text: 'Need more than 1 participant!'
+      }
+      setState({team: {members: state.team.members.sort((o, n) => (n.pts + n.tempPts) - (o.pts + o.tempPts))}, tournamentStarted: state.tournamentStarted, round: state.round, hint: action});
+      return;
+    }
+    localStorage.setItem('tournamentStarted', 1);
+    localStorage.setItem('round', 1);
+    let action = {
+      activated: true,
+      type: 'accept',
+      text: 'The new tournament has started successfully!'
+    }
+    setState({team: state.team, tournamentStarted: 1, round: 1, hint: action});
+  }
+
+  function handleCLickEndTournament(e) {
+    localStorage.setItem('tournamentStarted', 0);
+    setState({tournamentStarted: 0, team: {members: state.team.members.sort((o, n) => n.pts - o.pts)}});
+  }
+
+  function handleNewMember(fields) {
+    
+    let newMember = Object.assign({}, fields, {pts: 0, id: state.team.members.length, tempPts: 0});
+    setState({team: {members: [...state.team.members, newMember]}});
+
+    localStorage.setItem('team', JSON.stringify({members: [...state.team.members, newMember]}));
+  }
+
+  function handleDeleteMember(id) {
+    let newTeam = state.team.members.filter((m, i) => i !== id);
+    setState({team: {members: newTeam}});
+
+    localStorage.setItem('team', JSON.stringify({members: newTeam}));
+  }
+
+  function handleNewRound() {
+    let newMembersPositions = state.team.members.map(m => Object.assign({}, m, {pts: m.pts + m.tempPts, tempPts: 0}));
+    setState({team: {members: newMembersPositions.sort((o, n) => (n.pts + n.tempPts) - (o.pts + o.tempPts))}, tournamentStarted: state.tournamentStarted, round: state.round + 1});
+    localStorage.setItem('round', state.round + 1);
+    localStorage.setItem('team', JSON.stringify({members: newMembersPositions}));
+  }
+
+  function handlePointsChange(id, v) {
+    console.log('id ' + id)
+    console.log('v ' + v)
+    let newTeamSet = [...state.team.members];
+    newTeamSet.forEach(e => {
+      if (e.id == id) {
+        e.tempPts = v;
+      }
+    });
+    newTeamSet.sort((o, n) => (n.pts + n.tempPts) - (o.pts + o.tempPts));
+    setState({team: {members: newTeamSet}, tournamentStarted: state.tournamentStarted, round: state.round});
+  }
+
+  function handleClearTournamentHistory() {
+    setState({team: {members: []}, tournamentStarted: state.tournamentStarted, round: state.round});
+  }
+
+  function handleHintDelete() {
+    setState({team: {members: state.team.members.sort((o, n) => (n.pts + n.tempPts) - (o.pts + o.tempPts))}, tournamentStarted: state.tournamentStarted, round: state.round, hint: null});
+  }
+
+  function handleError(type) {
+    switch (type) {
+      case 'tournamentStart': {
+        return state.team.members.length < 2 ? true : false; 
+      }
+    }
+  }
+
+  return (
+    <div className="App">
+      <TournamentTable tournamentStarted={state.tournamentStarted} team={state.team} />
+      <Logo />
+      {
+        state.tournamentStarted ? 
+        <NewRound onNextRound={handleNewRound} onPointsChange={handlePointsChange} team={state.team} round={state.round}/> : 
+        <NewTournament onStartTournament={handleCLickStartTournament} onMemberAdded={handleNewMember} onDeleteMember={handleDeleteMember} team={state.team}/>
+      }
+      <Controls onEndTournament={handleCLickEndTournament} onClearTournament={handleClearTournamentHistory} tournamentStarted={state.tournamentStarted}/>
+      <Help />
+      <Hints action={state.hint} onUserDelete={handleHintDelete}/>
+    </div>
+  );
 }
 
 export default App;

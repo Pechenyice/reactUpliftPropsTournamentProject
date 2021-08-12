@@ -1,0 +1,41 @@
+
+.hints__content {
+    position: absolute;
+    top: 0;
+    left: 32px;
+    width: 250px;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    pointer-events: none;
+}
+
+.hints__hint {
+    width: 100%;
+    padding: 24px;
+    border-radius: 12px;
+    border: 2px solid white;
+    box-shadow: 0 0 12px white;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 21px;
+    color: white;
+    margin-bottom: 12px;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.hints__wrapper {
+    width: 100%;
+}
+
+.hints__hint_accept {
+    background-color: #4FB665;
+}
+
+.hints__hint_error {
+    background-color: #FE7777;
+}
